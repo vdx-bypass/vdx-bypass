@@ -95,15 +95,29 @@
       outline:none;
       text-align:center;
       text-align-last:center;
-      appearance:none; /* look propre */
+      appearance:none;
     }
     input::placeholder{ color:#8a9097; }
 
-    /* Sous-note dynamique sous le select (capacités par ship) */
-    .subnote{
-      margin-top:8px;
-      font-size:.95rem;
-      color:var(--muted);
+    /* Sous-note dynamique (badges) */
+    .subnote{ margin-top:10px; }
+    .badges{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:8px;
+    }
+    .badge{
+      display:inline-block;
+      padding:7px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background:linear-gradient(180deg,#15191e 0%, #111419 100%);
+      color:#dfe3e7;
+      font-size:.96rem;
+      font-weight:700;
+      letter-spacing:.2px;
+      box-shadow:0 6px 18px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.06);
     }
 
     .btn{
@@ -136,6 +150,7 @@
       align-items:center;
       justify-content:center;
       gap:14px;
+      flex-wrap:wrap;
     }
     .result-label{ color:var(--muted); font-weight:600 }
     .price{
@@ -144,6 +159,16 @@
       color:var(--accent-2);
       letter-spacing:.5px;
       text-shadow:0 0 10px rgba(0,184,255,.25);
+    }
+    .copy-btn{
+      height:36px;
+      padding:0 12px;
+      border-radius:8px;
+      border:1px solid rgba(255,255,255,.15);
+      background:linear-gradient(180deg,#1a1e23 0%, #151a1f 100%);
+      color:#dfe3e7;
+      font-weight:800;
+      cursor:pointer;
     }
 
     /* Bandeau explication pricing — mieux mis en valeur */
@@ -158,6 +183,38 @@
       font-size:.98rem;
     }
     .info-strip b{ color:#e9edf1 }
+
+    /* Callout contrat */
+    .contract-strip{
+      width:var(--wrap);
+      margin:10px auto 0;
+      padding:12px 14px;
+      background:linear-gradient(180deg,#181b20 0%, #15181d 100%);
+      border:1px dashed rgba(168,30,30,.35);
+      border-radius:10px;
+      color:#e5e8eb;
+      font-weight:700;
+    }
+
+    /* Tableau des rates (minimaliste) */
+    .rates{
+      width:var(--wrap);
+      margin:14px auto 0;
+      border-collapse:collapse;
+      background:linear-gradient(180deg,#14181d 0%, #11151a 100%);
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:10px;
+      overflow:hidden;
+      font-size:.98rem;
+    }
+    .rates th, .rates td{
+      padding:10px 12px;
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .rates th{ color:#cfd5db; font-weight:800; }
+    .rates tr:last-child td{ border-bottom:0; }
+    .rates td:first-child{ text-align:left; }
+    .rates td:last-child{ text-align:right; font-weight:800; }
 
     footer{
       margin-top:10px;
@@ -176,11 +233,16 @@
       <div class="control">
         <label for="ship">Select ship type</label>
         <select id="ship" aria-label="Ship type">
-          <option value="BR">Blockade Runner — 800,000 ISK / jump</option>
-          <option value="DST">Deep Space Transport — 1,500,000 ISK / jump</option>
-          <option value="Freighter">Freighter — 2,000,000 ISK / jump</option>
+          <option value="BR">Blockade Runner</option>
+          <option value="DST">Deep Space Transport</option>
+          <option value="Freighter">Freighter</option>
         </select>
-        <div class="subnote" id="shipMeta">Capacity: ≤ 13,000 m³</div>
+        <div class="subnote" id="shipMeta">
+          <div class="badges">
+            <span class="badge">Capacity ≤ 13,000 m³</span>
+            <span class="badge">Collateral ≤ 5 B</span>
+          </div>
+        </div>
       </div>
 
       <div class="control">
@@ -195,11 +257,23 @@
   <div class="result-bar" id="resultBar" style="visibility:hidden;" aria-live="polite">
     <span class="result-label">Total</span>
     <span class="price" id="result">—</span>
+    <button class="copy-btn" id="copyBtn" title="Copy total">Copy total</button>
   </div>
 
   <div class="info-strip">
-    <b>Pricing = jumps × rate.</b> No volume or collateral adjustments. HS only, 24h delivery window.
+    <b>Pricing = jumps × rate.</b> HS only, 24h delivery window.
   </div>
+
+  <div class="contract-strip">
+    Set up all courier contracts <u>to</u> <b>VDX Bypass</b>.
+  </div>
+
+  <table class="rates" aria-label="VDX Rates">
+    <tr><th style="text-align:left;">Ship</th><th style="text-align:right;">Rate per jump</th></tr>
+    <tr><td>Blockade Runner</td><td>800,000 ISK</td></tr>
+    <tr><td>Deep Space Transport</td><td>1,500,000 ISK</td></tr>
+    <tr><td>Freighter</td><td>2,000,000 ISK</td></tr>
+  </table>
 
   <footer>Bypass the Line with VDX</footer>
 
@@ -215,9 +289,25 @@
     function updateMeta(){
       const ship = document.getElementById('ship').value;
       const meta = document.getElementById('shipMeta');
-      if (ship === 'BR') meta.textContent = 'Capacity: ≤ 13,000 m³';
-      else if (ship === 'DST') meta.textContent = 'Capacity: ≤ 60,000 m³';
-      else meta.textContent = 'Capacity: ≤ 500,000 m³';
+      if (ship === 'BR') {
+        meta.innerHTML = `
+          <div class="badges">
+            <span class="badge">Capacity ≤ 13,000 m³</span>
+            <span class="badge">Collateral ≤ 5 B</span>
+          </div>`;
+      } else if (ship === 'DST') {
+        meta.innerHTML = `
+          <div class="badges">
+            <span class="badge">Capacity ≤ 60,000 m³</span>
+            <span class="badge">Collateral ≤ 1.5 B</span>
+          </div>`;
+      } else {
+        meta.innerHTML = `
+          <div class="badges">
+            <span class="badge">Capacity ≤ 500,000 m³</span>
+            <span class="badge">Collateral ≤ 2.5 B</span>
+          </div>`;
+      }
     }
     function calc(){
       const ship  = document.getElementById('ship').value;
@@ -234,12 +324,32 @@
       resultEl.textContent = formatISK(total);
       resultBar.style.visibility = 'visible';
     }
+    async function copyTotal(){
+      const text = document.getElementById('result').textContent.trim();
+      const btn  = document.getElementById('copyBtn');
+      try{
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(text);
+        } else {
+          const ta = document.createElement('textarea');
+          ta.value = text; document.body.appendChild(ta);
+          ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+        }
+        btn.textContent = 'Copied!';
+        setTimeout(()=> btn.textContent = 'Copy total', 1200);
+      }catch(e){
+        btn.textContent = 'Copy failed';
+        setTimeout(()=> btn.textContent = 'Copy total', 1200);
+      }
+    }
 
     document.getElementById('ship').addEventListener('change', updateMeta);
     document.getElementById('calcBtn').addEventListener('click', calc);
+    document.getElementById('copyBtn').addEventListener('click', copyTotal);
     document.getElementById('jumps').addEventListener('keydown', e=>{
       if(e.key === 'Enter') calc();
     });
+
     // init
     updateMeta();
   </script>
