@@ -292,8 +292,8 @@
   <table class="rates" aria-label="VDX Rates">
     <tr><th style="text-align:left;">Capacity tier</th><th style="text-align:right;">Rate per jump</th></tr>
     <tr><td>≤ 13,000 m³ — BR</td><td>800,000 ISK</td></tr>
-    <tr><td>≤ 60,000 m³ — DST</td><td>1,250,000 ISK</td></tr>
-    <tr><td>≤ 500,000 m³ — Freighter</td><td>1,500,000 ISK</td></tr>
+    <tr><td>≤ 60,000 m³ — DST</td><td>1,350,000 ISK</td></tr>
+    <tr><td>≤ 500,000 m³ — Freighter</td><td>1,750,000 ISK</td></tr>
   </table>
 
   <footer>Bypass the Line with VDX</footer>
@@ -304,8 +304,8 @@
     }
     function getRate(key){
       if (key === 'BR') return 800000;
-      if (key === 'DST') return 1250000;
-      return 1500000; // Freighter
+      if (key === 'DST') return 1350000;
+      return 1750000; // Freighter
     }
     function updateMeta(){
       const key = document.getElementById('ship').value;
