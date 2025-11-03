@@ -55,7 +55,7 @@
       font-size:1.02rem;
     }
 
-    /* Carte calculateur (centrée, largeur commune) */
+    /* Carte calculateur */
     .calculator{
       width:var(--wrap);
       margin:0 auto;
@@ -82,7 +82,7 @@
     }
     .control{ text-align:center; }
 
-    /* Inputs + selects soignés & centrés */
+    /* Inputs + selects */
     select,input{
       width:100%;
       height:52px;
@@ -99,7 +99,15 @@
     }
     input::placeholder{ color:#8a9097; }
 
-    /* Sous-notes & badges */
+    /* Hint discret sous le select */
+    .hint{
+      margin-top:6px;
+      color:#aeb4ba;
+      font-size:.9rem;
+      opacity:.9;
+    }
+
+    /* Badges */
     .subnote{ margin-top:10px; }
     .badges{
       display:flex;
@@ -119,7 +127,6 @@
       letter-spacing:.2px;
       box-shadow:0 6px 18px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.06);
     }
-    /* Variante verte élégante (HS Only) */
     .badge--green{
       border:1px solid rgba(88, 214, 141, .28);
       background:linear-gradient(180deg,#163022 0%, #11261a 100%);
@@ -143,7 +150,7 @@
     .btn:hover{ filter:brightness(1.05) }
     .btn:active{ transform:translateY(1px) }
 
-    /* Bandeau résultat centré, même largeur */
+    /* Résultat */
     .result-bar{
       width:var(--wrap);
       margin:10px auto 0;
@@ -177,23 +184,10 @@
       cursor:pointer;
     }
 
-    /* Bandeau explication pricing */
-    .info-strip{
-      width:var(--wrap);
-      margin:12px auto 0;
-      padding:10px 14px;
-      color:#c7ccd2;
-      background:linear-gradient(180deg,#14181d 0%, #12151a 100%);
-      border:1px solid rgba(255,255,255,.06);
-      border-radius:10px;
-      font-size:.98rem;
-    }
-    .info-strip b{ color:#e9edf1 }
-
-    /* Contact discret mais visible */
+    /* Contact */
     .contact-strip{
       width:var(--wrap);
-      margin:10px auto 0;
+      margin:12px auto 0;
       padding:10px 14px;
       background:linear-gradient(180deg,#12161b 0%, #0f1318 100%);
       border:1px solid rgba(0,184,255,.18);
@@ -203,7 +197,7 @@
     }
     .contact-strip b{ color:#ffffff }
 
-    /* Callout contrat */
+    /* Contrat */
     .contract-strip{
       width:var(--wrap);
       margin:10px auto 0;
@@ -215,7 +209,7 @@
       font-weight:700;
     }
 
-    /* Tableau des rates (minimaliste) */
+    /* Rates */
     .rates{
       width:var(--wrap);
       margin:14px auto 0;
@@ -251,12 +245,12 @@
     <div class="grid">
       <div class="control">
         <label for="ship">Select size (capacity tier)</label>
-        <!-- valeurs internes conservées pour le JS -->
         <select id="ship" aria-label="Capacity tier">
           <option value="BR">≤ 13,000 m³</option>
           <option value="DST">≤ 60,000 m³</option>
           <option value="Freighter">≤ 500,000 m³</option>
         </select>
+        <div class="hint" aria-hidden="true">Tap to change size</div>
         <div class="subnote" id="shipMeta">
           <div class="badges">
             <span class="badge">Ship: Blockade Runner</span>
@@ -286,19 +280,15 @@
     <button class="copy-btn" id="copyBtn" title="Copy total">Copy total</button>
   </div>
 
-  <div class="info-strip">
-    <b>Pricing = jumps × rate.</b> HS only, 24h delivery window.
-  </div>
-
   <div class="contact-strip">
     Questions? Reach out — in-game: <b>VDX-1</b> • Discord: <b>vdx_1</b>
   </div>
 
   <div class="contract-strip">
-    Set up all courier contracts <u>to</u> <b>VDX Bypass</b>.
+    Set up all courier contracts <u>to</u> <b>VDX Bypass</b> — 24H Delivery window.
   </div>
 
-  <!-- Tableau par capacity tier + mention du ship -->
+  <!-- Rates par capacity tier + ship -->
   <table class="rates" aria-label="VDX Rates">
     <tr><th style="text-align:left;">Capacity tier</th><th style="text-align:right;">Rate per jump</th></tr>
     <tr><td>≤ 13,000 m³ — BR</td><td>800,000 ISK</td></tr>
