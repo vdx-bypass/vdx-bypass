@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VDX Bypass — Pricing Calculator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Rajdhani', sans-serif;
+      background: linear-gradient(180deg, #f5f5f6 0%, #e8e9eb 100%);
+      color: #111;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      color: #a81e1e;
+      font-size: 3em;
+      letter-spacing: 2px;
+      margin: 0 0 10px 0;
+      text-shadow: 0 0 6px rgba(168, 30, 30, 0.5);
+    }
+
+    p.subtitle {
+      color: #5f6165;
+      font-size: 1.1em;
+      margin-bottom: 40px;
+    }
+
+    .calculator {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 30px rgba(0,0,0,0.08);
+      width: 320px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      font-size: 1.05em;
+      color: #222;
+    }
+
+    select, input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1em;
+      background: #fafafa;
+      text-align: center;
+    }
+
+    button {
+      background: #a81e1e;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 1.1em;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #c62626;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 1.3em;
+      font-weight: 700;
+      color: #00b8ff;
+    }
+
+    footer {
+      position: absolute;
+      bottom: 15px;
+      color: #666;
+      font-size: 0.9em;
+    }
+
+    @media(max-width: 400px) {
+      .calculator { width: 90%; }
+      h1 { font-size: 2.3em; }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>VDX</h1>
+  <p class="subtitle">Independent Covert Logistics Network</p>
+
+  <div class="calculator">
+    <label for="ship">Select ship type:</label>
+    <select id="ship">
+      <option value="BR">Blockade Runner — 800,000 ISK / jump</option>
+      <option value="DST">Deep Space Transport — 1,500,000 ISK / jump</option>
+      <option value="Freighter">Freighter — 2,000,000 ISK / jump</option>
+    </select>
+
+    <label for="jumps">Number of jumps:</label>
+    <input type="number" id="jumps" placeholder="Enter number of jumps">
+
+    <button onclick="calc()">Calculate</button>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <footer>Bypass the line with VDX</footer>
+
+  <script>
+    function calc() {
+      const ship = document.getElementById('ship').value;
+      const jumps = Number(document.getElementById('jumps').value);
+      if (!jumps || jumps <= 0) {
+        document.getElementById('result').innerText = "Enter a valid number of jumps.";
+        return;
+      }
+
+      let rate = 0;
+      if (ship === "BR") rate = 800000;
+      else if (ship === "DST") rate = 1500000;
+      else if (ship === "Freighter") rate = 2000000;
+
+      const total = jumps * rate;
+      document.getElementById('result').innerText = 
+        `Total: ${total.toLocaleString('en-US')} ISK`;
+    }
+  </script>
+
+</body>
+</html>
