@@ -171,7 +171,7 @@
       cursor:pointer;
     }
 
-    /* Bandeau explication pricing — mieux mis en valeur */
+    /* Bandeau explication pricing */
     .info-strip{
       width:var(--wrap);
       margin:12px auto 0;
@@ -183,6 +183,19 @@
       font-size:.98rem;
     }
     .info-strip b{ color:#e9edf1 }
+
+    /* Contact discret mais visible */
+    .contact-strip{
+      width:var(--wrap);
+      margin:10px auto 0;
+      padding:10px 14px;
+      background:linear-gradient(180deg,#12161b 0%, #0f1318 100%);
+      border:1px solid rgba(0,184,255,.18);
+      border-radius:10px;
+      color:#dfe6ee;
+      font-size:.98rem;
+    }
+    .contact-strip b{ color:#ffffff }
 
     /* Callout contrat */
     .contract-strip{
@@ -231,15 +244,16 @@
   <div class="calculator">
     <div class="grid">
       <div class="control">
-        <label for="ship">Select ship type</label>
-        <select id="ship" aria-label="Ship type">
-          <option value="BR">Blockade Runner</option>
-          <option value="DST">Deep Space Transport</option>
-          <option value="Freighter">Freighter</option>
+        <label for="ship">Select size (capacity tier)</label>
+        <!-- valeurs internes conservées pour le JS -->
+        <select id="ship" aria-label="Capacity tier">
+          <option value="BR">≤ 13,000 m³</option>
+          <option value="DST">≤ 60,000 m³</option>
+          <option value="Freighter">≤ 500,000 m³</option>
         </select>
         <div class="subnote" id="shipMeta">
           <div class="badges">
-            <span class="badge">Capacity ≤ 13,000 m³</span>
+            <span class="badge">Ship: Blockade Runner</span>
             <span class="badge">Collateral ≤ 5 B</span>
           </div>
         </div>
@@ -264,15 +278,20 @@
     <b>Pricing = jumps × rate.</b> HS only, 24h delivery window.
   </div>
 
+  <div class="contact-strip">
+    Questions? Reach out — in-game: <b>VDX-1</b> • Discord: <b>vdx_1</b>
+  </div>
+
   <div class="contract-strip">
     Set up all courier contracts <u>to</u> <b>VDX Bypass</b>.
   </div>
 
+  <!-- Tableau par capacity tier -->
   <table class="rates" aria-label="VDX Rates">
-    <tr><th style="text-align:left;">Ship</th><th style="text-align:right;">Rate per jump</th></tr>
-    <tr><td>Blockade Runner</td><td>800,000 ISK</td></tr>
-    <tr><td>Deep Space Transport</td><td>1,500,000 ISK</td></tr>
-    <tr><td>Freighter</td><td>2,000,000 ISK</td></tr>
+    <tr><th style="text-align:left;">Capacity tier</th><th style="text-align:right;">Rate per jump</th></tr>
+    <tr><td>≤ 13,000 m³</td><td>800,000 ISK</td></tr>
+    <tr><td>≤ 60,000 m³</td><td>1,500,000 ISK</td></tr>
+    <tr><td>≤ 500,000 m³</td><td>2,000,000 ISK</td></tr>
   </table>
 
   <footer>Bypass the Line with VDX</footer>
@@ -281,36 +300,36 @@
     function formatISK(value){
       return value.toLocaleString('en-US') + ' ISK';
     }
-    function getRate(ship){
-      if (ship === 'BR') return 800000;
-      if (ship === 'DST') return 1500000;
+    function getRate(key){
+      if (key === 'BR') return 800000;
+      if (key === 'DST') return 1500000;
       return 2000000; // Freighter
     }
     function updateMeta(){
-      const ship = document.getElementById('ship').value;
+      const key = document.getElementById('ship').value;
       const meta = document.getElementById('shipMeta');
-      if (ship === 'BR') {
+      if (key === 'BR') {
         meta.innerHTML = `
           <div class="badges">
-            <span class="badge">Capacity ≤ 13,000 m³</span>
+            <span class="badge">Ship: Blockade Runner</span>
             <span class="badge">Collateral ≤ 5 B</span>
           </div>`;
-      } else if (ship === 'DST') {
+      } else if (key === 'DST') {
         meta.innerHTML = `
           <div class="badges">
-            <span class="badge">Capacity ≤ 60,000 m³</span>
+            <span class="badge">Ship: Deep Space Transport</span>
             <span class="badge">Collateral ≤ 1.5 B</span>
           </div>`;
       } else {
         meta.innerHTML = `
           <div class="badges">
-            <span class="badge">Capacity ≤ 500,000 m³</span>
+            <span class="badge">Ship: Freighter</span>
             <span class="badge">Collateral ≤ 2.5 B</span>
           </div>`;
       }
     }
     function calc(){
-      const ship  = document.getElementById('ship').value;
+      const key  = document.getElementById('ship').value;
       const jumps = Number(document.getElementById('jumps').value);
       const resultBar = document.getElementById('resultBar');
       const resultEl  = document.getElementById('result');
@@ -320,7 +339,7 @@
         resultBar.style.visibility = 'visible';
         return;
       }
-      const total = jumps * getRate(ship);
+      const total = jumps * getRate(key);
       resultEl.textContent = formatISK(total);
       resultBar.style.visibility = 'visible';
     }
