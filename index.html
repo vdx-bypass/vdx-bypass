@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+si garde la section ship mais enleve ship mais BR Only on un truc du genre <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -7,7 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root{
-      --wrap: clamp(320px, 72vw, 720px); /* largeur max commune, centrée */
+      --wrap: clamp(320px, 72vw, 720px);
       --bg-1:#0f1114;
       --bg-2:#15181d;
       --panel:#1a1d21;
@@ -15,8 +15,8 @@
       --border:#2a2f35;
       --text:#e8eaed;
       --muted:#9aa0a6;
-      --accent:#a81e1e;   /* rouge VDX */
-      --accent-2:#00b8ff; /* bleu résultat */
+      --accent:#a81e1e;
+      --accent-2:#00b8ff;
     }
     * { box-sizing: border-box; }
 
@@ -39,7 +39,6 @@
     }
     @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
-    /* Branding */
     h1{
       font-family:'Orbitron',sans-serif;
       margin:0 0 6px 0;
@@ -55,7 +54,6 @@
       font-size:1.02rem;
     }
 
-    /* Carte calculateur */
     .calculator{
       width:var(--wrap);
       margin:0 auto;
@@ -82,32 +80,21 @@
     }
     .control{ text-align:center; }
 
-    /* Inputs + selects */
-    select,input{
-      width:100%;
-      height:52px;
-      padding:0 14px;
+    .static-field{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(180deg,#161a1f 0%, #12161b 100%);
+      border:1px solid rgba(255,255,255,.06);
       border-radius:12px;
-      border:1px solid var(--border);
-      background:var(--panel-2);
-      color:var(--text);
-      font-size:1.05rem;
-      outline:none;
-      text-align:center;
-      text-align-last:center;
-      appearance:none;
-    }
-    input::placeholder{ color:#8a9097; }
-
-    /* Hint discret sous le select */
-    .hint{
-      margin-top:6px;
-      color:#aeb4ba;
-      font-size:.9rem;
-      opacity:.9;
+      padding:14px 10px;
+      font-size:1.1rem;
+      font-weight:700;
+      color:#e8eaed;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.05), 0 4px 12px rgba(0,0,0,.35);
     }
 
-    /* Badges */
     .subnote{ margin-top:10px; }
     .badges{
       display:flex;
@@ -133,6 +120,20 @@
       color:#d4f0df;
     }
 
+    input{
+      width:100%;
+      height:52px;
+      padding:0 14px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:var(--panel-2);
+      color:var(--text);
+      font-size:1.05rem;
+      outline:none;
+      text-align:center;
+    }
+    input::placeholder{ color:#8a9097; }
+
     .btn{
       margin-top:12px;
       width:100%;
@@ -150,7 +151,6 @@
     .btn:hover{ filter:brightness(1.05) }
     .btn:active{ transform:translateY(1px) }
 
-    /* Résultat */
     .result-bar{
       width:var(--wrap);
       margin:10px auto 0;
@@ -184,7 +184,6 @@
       cursor:pointer;
     }
 
-    /* Contact */
     .contact-strip{
       width:var(--wrap);
       margin:12px auto 0;
@@ -197,7 +196,6 @@
     }
     .contact-strip b{ color:#ffffff }
 
-    /* Contrat */
     .contract-strip{
       width:var(--wrap);
       margin:10px auto 0;
@@ -209,7 +207,6 @@
       font-weight:700;
     }
 
-    /* Rates */
     .rates{
       width:var(--wrap);
       margin:14px auto 0;
@@ -244,16 +241,10 @@
   <div class="calculator">
     <div class="grid">
       <div class="control">
-        <label for="ship">Select size (capacity tier)</label>
-        <select id="ship" aria-label="Capacity tier">
-          <option value="BR">≤ 13,000 m³</option>
-          <option value="DST">≤ 60,000 m³</option>
-          <option value="Freighter">≤ 500,000 m³</option>
-        </select>
-        <div class="hint" aria-hidden="true">Tap to change size</div>
+        <label>Capacity tier</label>
+        <div class="static-field">≤ 13,000 m³ — Blockade Runner</div>
         <div class="subnote" id="shipMeta">
           <div class="badges">
-            <span class="badge">Ship: Blockade Runner</span>
             <span class="badge">Collateral ≤ 5 B</span>
           </div>
         </div>
@@ -262,7 +253,6 @@
       <div class="control">
         <label for="jumps">Number of jumps</label>
         <input type="number" id="jumps" placeholder="Enter jumps" min="1" inputmode="numeric">
-        <!-- Bulle verte fixe HS Only -->
         <div class="subnote" id="hsMeta">
           <div class="badges">
             <span class="badge badge--green">HS Only</span>
@@ -281,19 +271,16 @@
   </div>
 
   <div class="contact-strip">
-    Questions? Reach out — in-game: <b>VDX-1</b> - Thanks! 
+    Questions? Reach out — in-game: <b>VDX-1</b> - Thanks!
   </div>
 
   <div class="contract-strip">
     Set up all courier contracts <u>to</u> <b>VDX Bypass</b> — 24H Delivery window.
   </div>
 
-  <!-- Rates par capacity tier + ship -->
   <table class="rates" aria-label="VDX Rates">
     <tr><th style="text-align:left;">Capacity tier</th><th style="text-align:right;">Rate per jump</th></tr>
     <tr><td>≤ 13,000 m³ — BR</td><td>800,000 ISK</td></tr>
-    <tr><td>≤ 60,000 m³ — DST</td><td>1,350,000 ISK</td></tr>
-    <tr><td>≤ 500,000 m³ — Freighter</td><td>1,750,000 ISK</td></tr>
   </table>
 
   <footer>Bypass the Line with VDX</footer>
@@ -302,36 +289,10 @@
     function formatISK(value){
       return value.toLocaleString('en-US') + ' ISK';
     }
-    function getRate(key){
-      if (key === 'BR') return 800000;
-      if (key === 'DST') return 1350000;
-      return 1750000; // Freighter
-    }
-    function updateMeta(){
-      const key = document.getElementById('ship').value;
-      const meta = document.getElementById('shipMeta');
-      if (key === 'BR') {
-        meta.innerHTML = `
-          <div class="badges">
-            <span class="badge">Ship: Blockade Runner</span>
-            <span class="badge">Collateral ≤ 5 B</span>
-          </div>`;
-      } else if (key === 'DST') {
-        meta.innerHTML = `
-          <div class="badges">
-            <span class="badge">Ship: DST</span>
-            <span class="badge">Collateral ≤ 1.5 B</span>
-          </div>`;
-      } else {
-        meta.innerHTML = `
-          <div class="badges">
-            <span class="badge">Ship: Freighter</span>
-            <span class="badge">Collateral ≤ 2.5 B</span>
-          </div>`;
-      }
+    function getRate(){
+      return 800000;
     }
     function calc(){
-      const key  = document.getElementById('ship').value;
       const jumps = Number(document.getElementById('jumps').value);
       const resultBar = document.getElementById('resultBar');
       const resultEl  = document.getElementById('result');
@@ -341,7 +302,7 @@
         resultBar.style.visibility = 'visible';
         return;
       }
-      const total = jumps * getRate(key);
+      const total = jumps * getRate();
       resultEl.textContent = formatISK(total);
       resultBar.style.visibility = 'visible';
     }
@@ -364,15 +325,11 @@
       }
     }
 
-    document.getElementById('ship').addEventListener('change', updateMeta);
     document.getElementById('calcBtn').addEventListener('click', calc);
     document.getElementById('copyBtn').addEventListener('click', copyTotal);
     document.getElementById('jumps').addEventListener('keydown', e=>{
       if(e.key === 'Enter') calc();
     });
-
-    // init
-    updateMeta();
   </script>
 </body>
 </html>
