@@ -282,20 +282,6 @@
     }
     .contact-strip b{ color:#ffffff }
 
-    .contract-strip{
-      width:var(--wrap);
-      margin:10px auto 0;
-      padding:12px 14px;
-      background:linear-gradient(180deg,#181b20 0%, #15181d 100%);
-      border:1px dashed rgba(168,30,30,.55);
-      border-radius:10px;
-      color:#e5e8eb;
-      font-weight:700;
-    }
-    .contract-strip b{
-      color:var(--accent);
-    }
-
     .time-strip{
       width:var(--wrap);
       margin:12px auto 0;
@@ -320,6 +306,9 @@
     .time-value{
       font-weight:800;
       letter-spacing:.2px;
+    }
+    .time-value--contract{
+      color:var(--accent);
     }
     .time-note{
       margin-top:6px;
@@ -375,21 +364,12 @@
     <button class="btn" id="calcBtn">Calculate</button>
   </div>
 
-  <div class="result-bar" id="resultBar" style="visibility:hidden;" aria-live="polite">
-    <span class="result-label">Total</span>
-    <span class="price" id="result">—</span>
-    <button class="copy-btn" id="copyBtn" title="Copy total">Copy total</button>
-  </div>
-
-  <div class="contact-strip">
-    Questions? Reach out — in-game: <b>VDX-1</b> - Thanks!
-  </div>
-
-  <div class="contract-strip">
-    Set up all courier contracts to <b>VDX-1</b>
-  </div>
-
+  <!-- Time requirements block just under calculator -->
   <div class="time-strip" id="timeStrip">
+    <div class="time-row">
+      <span class="time-label">Private Courier Contract to:</span>
+      <span class="time-value time-value--contract">VDX-1</span>
+    </div>
     <div class="time-row">
       <span class="time-label">Time To Accept</span>
       <span class="time-value" id="timeAccept">24H</span>
@@ -399,6 +379,16 @@
       <span class="time-value" id="timeComplete">24H</span>
     </div>
     <div class="time-note" id="timeNote" style="display:none;"></div>
+  </div>
+
+  <div class="result-bar" id="resultBar" style="visibility:hidden;" aria-live="polite">
+    <span class="result-label">Total</span>
+    <span class="price" id="result">—</span>
+    <button class="copy-btn" id="copyBtn" title="Copy total">Copy total</button>
+  </div>
+
+  <div class="contact-strip">
+    Questions? Reach out — in-game: <b>VDX-1</b> - Thanks!
   </div>
 
   <footer>Bypass the Line with VDX</footer>
