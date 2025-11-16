@@ -162,6 +162,7 @@
     .capacity-btn:active{ transform:translateY(1px); }
 
     .capacity-btn.is-active{
+      /* valeurs par défaut (bleu) si jamais aucun thème n'est appliqué */
       border-color:rgba(0,184,255,.75);
       box-shadow:0 0 16px rgba(0,184,255,.35);
     }
@@ -401,6 +402,44 @@
       color:#7d848b;
       font-size:.95rem;
     }
+
+    /* THEME DYNAMIQUE DANS LE CALCULATOR */
+
+    .calculator.hs-theme .capacity-btn.is-active{
+      border-color:rgba(88,214,141,.85);
+      box-shadow:0 0 16px rgba(88,214,141,.55);
+    }
+    .calculator.ls-theme .capacity-btn.is-active{
+      border-color:rgba(244,162,97,.9);
+      box-shadow:0 0 16px rgba(244,162,97,.6);
+    }
+    .calculator.ns-theme .capacity-btn.is-active{
+      border-color:rgba(155,105,255,.95);
+      box-shadow:0 0 16px rgba(155,105,255,.7);
+    }
+
+    .calculator.hs-theme .collateral-strip{
+      border-color:rgba(88,214,141,.45);
+    }
+    .calculator.ls-theme .collateral-strip{
+      border-color:rgba(244,162,97,.5);
+    }
+    .calculator.ns-theme .collateral-strip{
+      border-color:rgba(155,105,255,.55);
+    }
+
+    .calculator.hs-theme .dotlan-link{
+      border-color:rgba(88,214,141,.6);
+      box-shadow:0 0 14px rgba(88,214,141,.5);
+    }
+    .calculator.ls-theme .dotlan-link{
+      border-color:rgba(244,162,97,.7);
+      box-shadow:0 0 14px rgba(244,162,97,.55);
+    }
+    .calculator.ns-theme .dotlan-link{
+      border-color:rgba(155,105,255,.8);
+      box-shadow:0 0 14px rgba(155,105,255,.65);
+    }
   </style>
 </head>
 <body>
@@ -414,7 +453,7 @@
     <button type="button" class="service-btn service-btn--ns" data-service="NS">NS Service (CVA &amp; Friends Only)</button>
   </div>
 
-  <div class="calculator">
+  <div class="calculator hs-theme">
     <div class="grid">
       <div class="control">
         <label>Capacity tier</label>
@@ -511,16 +550,17 @@
       let currentService = 'HS';
       let currentTier = 'BR';
 
-      const resultBar = document.getElementById('resultBar');
-      const resultEl  = document.getElementById('result');
+      const calculatorEl   = document.querySelector('.calculator');
+      const resultBar      = document.getElementById('resultBar');
+      const resultEl       = document.getElementById('result');
       const collateralValueEl = document.getElementById('collateralValue');
-      const scopeBadge = document.getElementById('scopeBadge');
-      const timeAcceptEl = document.getElementById('timeAccept');
+      const scopeBadge     = document.getElementById('scopeBadge');
+      const timeAcceptEl   = document.getElementById('timeAccept');
       const timeCompleteEl = document.getElementById('timeComplete');
-      const timeNoteEl = document.getElementById('timeNote');
+      const timeNoteEl     = document.getElementById('timeNote');
 
-      const serviceButtons = document.querySelectorAll('.service-btn');
-      const capacityButtons = document.querySelectorAll('.capacity-btn');
+      const serviceButtons   = document.querySelectorAll('.service-btn');
+      const capacityButtons  = document.querySelectorAll('.capacity-btn');
 
       function formatISK(value){
         return value.toLocaleString('en-US') + ' ISK';
@@ -529,6 +569,17 @@
       function getRate(){
         const table = perJumpRates[currentService] || {};
         return table[currentTier] || 0;
+      }
+
+      function updateCalculatorTheme(){
+        calculatorEl.classList.remove('hs-theme','ls-theme','ns-theme');
+        if (currentService === 'HS'){
+          calculatorEl.classList.add('hs-theme');
+        } else if (currentService === 'LS'){
+          calculatorEl.classList.add('ls-theme');
+        } else if (currentService === 'NS'){
+          calculatorEl.classList.add('ns-theme');
+        }
       }
 
       function updateCollateralStyle(){
@@ -639,6 +690,7 @@
         }
         updateServiceButtons();
         updateCapacityButtons();
+        updateCalculatorTheme();
         updateCollateralDisplay();
         updateScopeBadge();
         updateTimePanel();
