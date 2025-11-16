@@ -573,10 +573,10 @@
         let note = '';
 
         if (currentService === 'HS'){
-          if (currentTier === 'BR'){
+          if (currentTier === 'BR' || currentTier === 'DST'){
             accept = '24H';
             complete = '24H';
-          } else {
+          } else { // FREIGHTER
             accept = '3 Days';
             complete = '24H';
           }
