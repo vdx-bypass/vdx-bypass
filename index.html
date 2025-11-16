@@ -235,11 +235,22 @@
     }
     .collateral-value{
       font-weight:900;
-      color:var(--accent-2);
       letter-spacing:.2px;
       font-size:1.05rem;
-      text-shadow:0 0 10px rgba(0,184,255,.55);
     }
+    .collateral-value--hs{
+      color:#58d68d;
+      text-shadow:0 0 10px rgba(88,214,141,.55);
+    }
+    .collateral-value--ls{
+      color:#f4a261;
+      text-shadow:0 0 10px rgba(244,162,97,.55);
+    }
+    .collateral-value--ns{
+      color:#9b69ff;
+      text-shadow:0 0 10px rgba(155,105,255,.55);
+    }
+
     .dotlan-link{
       display:inline-flex;
       align-items:center;
@@ -486,24 +497,6 @@
         NS: ['BR','DST']
       };
 
-      const timeConfig = {
-        HS: {
-          accept: '24H',
-          complete: '24H',
-          note: ''
-        },
-        LS: {
-          accept: '3 Days',
-          complete: '3 Days',
-          note: 'Additional delay may apply due to security risks (gate camps, etc.).'
-        },
-        NS: {
-          accept: '3 Days',
-          complete: '24H',
-          note: ''
-        }
-      };
-
       let currentService = 'HS';
       let currentTier = 'BR';
 
@@ -527,6 +520,17 @@
         return table[currentTier] || 0;
       }
 
+      function updateCollateralStyle(){
+        collateralValueEl.classList.remove('collateral-value--hs','collateral-value--ls','collateral-value--ns');
+        if (currentService === 'HS'){
+          collateralValueEl.classList.add('collateral-value--hs');
+        } else if (currentService === 'LS'){
+          collateralValueEl.classList.add('collateral-value--ls');
+        } else if (currentService === 'NS'){
+          collateralValueEl.classList.add('collateral-value--ns');
+        }
+      }
+
       function updateCollateralDisplay(){
         const collForService = collateralConfig[currentService] || {};
         const coll = collForService[currentTier];
@@ -535,6 +539,7 @@
         } else {
           collateralValueEl.textContent = '—';
         }
+        updateCollateralStyle();
       }
 
       function updateScopeBadge(){
@@ -552,12 +557,31 @@
       }
 
       function updateTimePanel(){
-        const cfg = timeConfig[currentService];
-        if (!cfg) return;
-        timeAcceptEl.textContent = cfg.accept;
-        timeCompleteEl.textContent = cfg.complete;
-        if (cfg.note){
-          timeNoteEl.textContent = cfg.note;
+        let accept = '';
+        let complete = '';
+        let note = '';
+
+        if (currentService === 'HS'){
+          if (currentTier === 'BR'){
+            accept = '24H';
+            complete = '24H';
+          } else {
+            accept = '3 Days';
+            complete = '24H';
+          }
+        } else if (currentService === 'LS'){
+          accept = '3 Days';
+          complete = '3 Days';
+          note = 'Additional delay may apply due to security risks (gate camps, etc.).';
+        } else if (currentService === 'NS'){
+          accept = '3 Days';
+          complete = '24H';
+        }
+
+        timeAcceptEl.textContent = accept;
+        timeCompleteEl.textContent = complete;
+        if (note){
+          timeNoteEl.textContent = note;
           timeNoteEl.style.display = 'block';
         } else {
           timeNoteEl.textContent = '';
@@ -615,6 +639,7 @@
         currentTier = tier;
         updateCapacityButtons();
         updateCollateralDisplay();
+        updateTimePanel();
       }
 
       function calc(){
